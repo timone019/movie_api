@@ -10,23 +10,22 @@
 // let addr = request.url;
 // let q = new URL(addr,  'http://localhost:8080');
 
-const url = require("url");
-let addr = "http://localhost:8080/default.html?year=2017&month=february";
-let q = new URL(addr, "http://localhost:8080");
+// const url = require("url");
+// let addr = "http://localhost:8080/default.html?year=2017&month=february";
+// let q = new URL(addr, "http://localhost:8080");
 
-console.log(q.host); // returns 'localhost:8080'
-console.log(q.pathname); // returns '/default.html'
-console.log(q.search); // returns '?year=2017&month=february'
+// console.log(q.host); // returns 'localhost:8080'
+// console.log(q.pathname); // returns '/default.html'
+// console.log(q.search); // returns '?year=2017&month=february'
 
-let qdata = q.query; // returns an object: { year: 2017, month: 'february' }
-console.log(qdata.month); // returns 'february'
+// let qdata = q.query; // returns an object: { year: 2017, month: 'february' }
+// console.log(qdata.month); // returns 'february'
 
 const http = require("http"),
   fs = require("fs"),
   url = require("url");
 
-http
-  .createServer((request, response) => {
+http.createServer((request, response) => {
     let addr = request.url,
       q = new URL(addr, "http://" + "request.headers.host"),
       filePath = "";

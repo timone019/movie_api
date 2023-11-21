@@ -9,6 +9,7 @@ const app = express();
 // create a write stream (in append mode)
 // a ‘log.txt’ file is created in root directory
 
+// using morgan to log requests to the terminal
 app.use(morgan('common'));
 
 let top10Movies = [
@@ -62,7 +63,6 @@ let top10Movies = [
       year: 2013
     }
 ]
-
 
 // const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'})
 

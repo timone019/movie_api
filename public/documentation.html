@@ -1,12 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="../css/styles.css" />
+    <title>Movie_API Documentation</title>
+  </head>
 
-<head>
-    <title>Movie Clips</title>
-</head>
+  <body>
+    <h1>Movie and User API Documentation</h1>
 
-<body>
-    <h1>Collection of classic clips worth your while</h1>
-</body>
+    <h2>Movies</h2>
 
+    <table>
+      <tr>
+        <td>GET</td>
+        <td>/movies</td>
+        <td>List of all movies and details</td>
+      </tr>
+      <tr>
+        <td>GET</td>
+        <td>/movies/:title</td>
+        <td>Specific movie title</td>
+      </tr>
+      <tr>
+        <td>GET</td>
+        <td>/movies/:genre/genreName</td>
+        <td>Details of movie genre name, description and year</td>
+      </tr>
+      <tr>
+        <td>GET</td>
+        <td>/movies/:directors/directorName</td>
+        <td>Movie director</td>
+      </tr>
+      <tr>
+        <td>Post</td>
+        <td>/users/:id/:movieTitle</td>
+        <td>Add movie to favorite list</td>
+      </tr>
+
+      <tr>
+        <td>DELETE</td>
+        <td>/users/:id/:movieTitle</td>
+        <td>Delete a specific movie</td>
+      </tr>
+    </table>
+
+    <h2>Users</h2>
+
+    <table>
+      <tr>
+        <td>POST</td>
+        <td>/users</td>
+        <td>Create a new user</td>
+      </tr>
+      <tr>
+        <td>PUT</td>
+        <td>/users/:id'</td>
+        <td>Update name of a specific user</td>
+      </tr>
+      <tr>
+        <td>DELETE</td>
+        <td>/users/:id</td>
+        <td>Delete a specific user</td>
+      </tr>
+    </table>
+  </body>
 </html>

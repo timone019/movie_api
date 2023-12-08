@@ -1,0 +1,4 @@
+{"_id":{"$oid":"656e500351488ce922bda774"},"Username":"jane_smith","Password":"pass456","Email":"jane.smith@example.com","Birthday":"1985-08-22","FavoriteMovies":[{"$oid":"656e421551488ce922bda76b"},{"$oid":"656e455151488ce922bda76c"}]}
+{"_id":{"$oid":"656e507a51488ce922bda775"},"Username":"rob_peter","Password":"notsecure789","Email":"rob.peter@example.com","Birthday":"1991-03-01","FavoriteMovies":[{"$oid":"656e465c51488ce922bda76d"},{"$oid":"656e473551488ce922bda76e"}]}
+{"_id":{"$oid":"656e508451488ce922bda776"},"Username":"bob_jones","Password":"secure789","Email":"bob.jones@example.com","Birthday":"1992-03-01","FavoriteMovies":[{"$oid":"656e473551488ce922bda76e"},{"$oid":"656e48ae51488ce922bda770"}]}
+{"_id":{"$oid":"656e586651488ce922bda777"},"Username":"mike_lowry","Password":"lowry789","Email":"mike.lowry@example.com","Birthday":"1989-03-01","FavoriteMovies":[{"$oid":"656e4a0851488ce922bda771"},{"$oid":"656e4b7551488ce922bda772"}]}

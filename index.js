@@ -1,5 +1,5 @@
 const express = require('express');
-const bodyParser = require('body-parser'),
+  bodyParser = require('body-parser'),
   uuid = require('uuid');
 
 const morgan = require('morgan');
@@ -35,7 +35,7 @@ app.get('/', (req, res) => {
   res.send('Welcome to my movie app!');
 });
 
-// Create: Allow users to add a movie to their list of favorites 
+// Create: Allow users to add a movie by movie ID to their list of favorites 
 app.post('/users/:Username/movies/:MovieID', async (req, res) => {
   await Users.findOneAndUpdate({ Username: req.params.Username }, {
      $push: { FavoriteMovies: req.params.MovieID }
@@ -134,13 +134,19 @@ app.get("/genres/:genreName", (req, res) => {
 
 // Read: Return movie titles by Genre *still figuring this one out
 // app.get('/movies/genre/:genreName', (req, res) => {
-//   Movies.findMany({ "Genre.Name": req.params.genreName })
+//   Movies.find({ "Genre.Name": req.params.genreName })
 //     .then((movies) => {
-//       res.status(200).json(movies);
+          // if (movies.length === 0) {
+          //   return res.status(400).send(req.params.genreName + ' was not found');
+          // } else {
+          //   res.status(200).json(movies.map((movie) => movie.Title));
+          // }
 //     })
 //     .catch((err) => {
+//       console.error(err);
 //       res.status(500).send('Error: ' + err);
-//     })
+//     });
+// });
 
 
 // Read: Return a list of ALL directors
@@ -177,7 +183,7 @@ app.get("/users", function(req, res) {
   });
 });
 
-// Get all users with arrow functions
+// Get all users with using arrow async await function
 // app.get('/users', async (req, res) => {
 //     await Users.find()
 //       .then((users) => {
@@ -237,43 +243,91 @@ app.put('/users/:Username', async (req, res) => {
 
 
 // Delete: Allow users to remove a movie from their list of favorites
-app.delete("/users/:id/:movieTitle", async (req, res) => {
-  const { id, movieTitle } = req.params;
 
-  const user = await Users.findById(id);
+// attempting to delete movie from user's list by movie title
+// app.delete("/users/:Username/:movieTitle", (req, res) => {
+//   const { Username, movieTitle } = req.params;
 
-  if (user) {
-    user.favMovies = user.favMovies.filter((title) => title !== movieTitle);
-    res
-      .status(200)
-      .send(`${movieTitle} has been removed from user ${id}'s array`);
-  } else {
-    res.status(400).send("User not found");
-  }
-});
+//   const user = await Users.findByUsername(Username);
+
+//   if (user) {
+//     user.favMovies = user.favMovies.filter((title) => title !== movieTitle);
+//     res
+//       .status(200)
+//       .send(`${movieTitle} has been removed from user ${Username}'s array`);
+//   } else {
+//     res.status(400).send("User not found");
+//   }
+// });
+
+
+// attempting to delete movie from user's list by movie ID
+// app.delete('/users/:Username/movies/:MovieID', async (req, res) => {
+//   await Users.findOneAndUpdate({ Username: req.params.Username }, {
+//      $pull: { FavoriteMovies: req.params.MovieID }
+//    },
+//    { new: true }) // This line makes sure that the updated document is returned
+//   .then((updatedUser) => {
+//     if (!updatedUser) {
+//     return res.status(404).send("Error: User doesn't exist");
+//   } else {
+//     res.json(updatedUser);
+//   }
+//   })
+//   .catch((err) => {
+//     console.error(err);
+//     res.status(500).send('Error: ' + err);
+//   });
+// });
+
+
+// another attempting to delete movie from user's list by movie ID
+// app.delete("/users/:id/:movieTitle", async (req, res) => {
+//   const { id, movieTitle } = req.params;
+
+//   const user = await Users.findById(id);
+
+//   if (user) {
+//     user.favMovies = user.favMovies.filter((title) => title !== movieTitle);
+//     res
+//       .status(200)
+//       .send(`${movieTitle} has been removed from user ${id}'s array`);
+//   } else {
+//     res.status(400).send("User not found");
+//   }
+// });
 
 
   // Delete: Allow existing users to deregister
-app.delete('/users/:Username', async (req, res) => {
-    await Users.findOneAndRemove({ Username: req.params.Username })
-      .then((user) => {
-        if (!user) {
-          res.status(400).send(req.params.Username + ' was not found');
-        } else {
-          res.status(200).send(req.params.Username + ' was deleted.');
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        res.status(500).send('Error: ' + err);
-      });
-  });
+app.delete("/users/:Username", async (req, res) => {
+    try {
+  const user = await Users.findOneAndDelete({ Username: req.params.Username });
+  user
+  ? res.status(200).send(`${req.params.Username} was deleted.`)
+  : res.status(400).send(`${req.params.Username} was not found`);
+} catch (err) {
+  res.status(500).send("Error: " + err);
+}
+});
 
-// app.get('/documentation.html', (req, res) => {
-//     res.sendFile('public/documentation.html', { root: __dirname });
-//   });
 
-// access documentation.html usig express.static
+// app.delete('/users/:Username', async (req, res) => {
+//     await Users.findOneAndDelete({ Username: req.params.Username })
+//       .then((user) => {
+//         if (!user) {
+//           res.status(400).send(req.params.Username + ' was not found');
+//         } else {
+//           res.status(200).send(req.params.Username + ' was deleted.');
+//         }
+//       })
+//       .catch((err) => {
+//         console.error(err);
+//         res.status(500).send('Error: ' + err);
+//       })
+//       });
+
+
+// access documentation.html using express.static
 app.use("/documentation", express.static("public"));
 
 // error handling

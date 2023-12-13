@@ -202,25 +202,40 @@ app.get('/users/:Username', async (req, res) => {
 }*/
 
 //Update: Allow users to update their info
-app.put('/users/:Username', async (req, res) => {
-    await Users.findOneAndUpdate({ Username: req.params.Username }, { $set:
-      {
-        Username: req.body.Username,
-        Password: req.body.Password,
-        Email: req.body.Email,
-        Birthday: req.body.Birthday
-      },
-    },
-    { new: true }) // This line makes sure that the updated document is returned
-    .then((updatedUser) => {
-      res.json(updatedUser);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    })
-  
-  });
+app.put("/users/:Username", async (req, res) => {
+  try {
+    const updatedUser = await Users.findOneAndUpdate(
+      { Username: req.params.Username },
+      { $set: req.body },
+      { new: true }
+    );
+    updatedUser
+      ? res.json(updatedUser)
+      : res.status(404).send("User not found");
+  } catch (err) {
+    res.status(500).send("Error: " + err);
+  }
+});
+
+// this method works but breaks for any gets that have anything in the param body
+// app.put('/users/:Username', async (req, res) => {
+//     await Users.findOneAndUpdate({ Username: req.params.Username }, { $set:
+//       {
+//         Username: req.body.Username,
+//         Password: req.body.Password,
+//         Email: req.body.Email,
+//         Birthday: req.body.Birthday
+//       },
+//     },
+//     { new: true }) // This line makes sure that the updated document is returned
+//     .then((updatedUser) => {
+//       res.json(updatedUser);
+//     })
+//     .catch((err) => {
+//       console.error(err);
+//       res.status(500).send('Error: ' + err);
+//     })
+//   });
 
 // Delete: Allow users to remove a movie from their list of favorites
 app.delete("/users/:Username/movies/:MovieID", async (req, res) => {

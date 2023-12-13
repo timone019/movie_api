@@ -11,6 +11,121 @@
   <body>
     <h1>Movie and User API Documentation</h1>
 
+    <h2>Mongoose API Documentation</h2>
+
+    <table>
+      <tr>
+        <th>Endpoint</th>
+        <th>Method</th>
+        <th>Parameters</th>
+        <th>Request Body</th>
+        <th>Description</th>
+        <th>Mongoose Logic</th>
+        <th>Expected Response</th>
+      </tr>
+    
+      <!-- Get All Movies -->
+      <tr>
+        <td>/api/movies</td>
+        <td>GET</td>
+        <td></td>
+        <td></td>
+        <td>Returns a list of all movies.</td>
+        <td>Movie.find({})</td>
+        <td>[{ movieObject1 }, { movieObject2 }, ...]</td>
+      </tr>
+    
+      <!-- Get Single Movie by Title -->
+      <tr>
+        <td>/api/movies/:title</td>
+        <td>GET</td>
+        <td>Title (string)</td>
+        <td></td>
+        <td>Returns data about a single movie.</td>
+        <td>Movie.findOne({ title: req.params.title })</td>
+        <td>{ movieObject }</td>
+      </tr>
+    
+      <!-- Get Genre by Name -->
+      <tr>
+        <td>/api/genres/:name</td>
+        <td>GET</td>
+        <td>Name (string)</td>
+        <td></td>
+        <td>Returns data about a genre.</td>
+        <td>Genre.findOne({ name: req.params.name })</td>
+        <td>{ genreObject }</td>
+      </tr>
+    
+      <!-- Get Director by Name -->
+      <tr>
+        <td>/api/directors/:name</td>
+        <td>GET</td>
+        <td>Name (string)</td>
+        <td></td>
+        <td>Returns data about a director.</td>
+        <td>Director.findOne({ name: req.params.name })</td>
+        <td>{ directorObject }</td>
+      </tr>
+    
+      <!-- User Registration -->
+      <tr>
+        <td>/api/users/register</td>
+        <td>POST</td>
+        <td></td>
+        <td>{ username, password, email, dob }</td>
+        <td>Allows new users to register.</td>
+        <td>User.create(req.body)</td>
+        <td>{ success: true, message: "User registered successfully" }</td>
+      </tr>
+    
+      <!-- Update User Info -->
+      <tr>
+        <td>/api/users/:userId</td>
+        <td>PUT</td>
+        <td>UserID (string)</td>
+        <td>{ username, password, email, dob }</td>
+        <td>Allows users to update their user info.</td>
+        <td>User.findByIdAndUpdate(req.params.userId, req.body, { new: true })</td>
+        <td>{ success: true, message: "User updated successfully", updatedUser: { updatedUserInfo } }</td>
+      </tr>
+    
+      <!-- Add Movie to Favorites -->
+      <tr>
+        <td>/api/users/:userId/favorites</td>
+        <td>POST</td>
+        <td>UserID (string)</td>
+        <td>{ movieId }</td>
+        <td>Allows users to add a movie to their favorites.</td>
+        <td>User.findByIdAndUpdate(req.params.userId, { $push: { favorites: req.body.movieId } })</td>
+        <td>{ success: true, message: "Movie added to favorites successfully" }</td>
+      </tr>
+    
+      <!-- Remove Movie from Favorites -->
+      <tr>
+        <td>/api/users/:userId/favorites/:movieId</td>
+        <td>DELETE</td>
+        <td>UserID (string), MovieID (string)</td>
+        <td></td>
+        <td>Allows users to remove a movie from their favorites.</td>
+        <td>User.findByIdAndUpdate(req.params.userId, { $pull: { favorites: req.params.movieId } })</td>
+        <td>{ success: true, message: "Movie removed from favorites successfully" }</td>
+      </tr>
+    
+      <!-- Deregister User -->
+      <tr>
+        <td>/api/users/:userId</td>
+        <td>DELETE</td>
+        <td>UserID (string)</td>
+        <td></td>
+        <td>Allows existing users to deregister.</td>
+        <td>User.findByIdAndRemove(req.params.userId)</td>
+        <td>{ success: true, message: "User deregistered successfully" }</td>
+      </tr>
+    </table>
+
+
+    <h2>HTTP Methods & Routes</h2>
     <h2>Movies</h2>
 
     <table>

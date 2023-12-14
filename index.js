@@ -14,7 +14,8 @@ const Users = Models.User;
 // MongoDB Connection via Mongoose
 mongoose.connect('mongodb://127.0.0.1:27017/cfDB');
 
-// app.use(bodyParser.json());
+// importing body parser
+app.use(bodyParser.json());
 
 // log requests to server
 app.use(morgan('common'));
@@ -23,12 +24,20 @@ app.use(morgan('common'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// middleware for passport
+let auth = require('./auth')(app);
+
+// require passport authentication
+const passport = require('passport');
+require('./passport');
+
 // auto-sends all files requested from the public folder
 app.use(express.static('public'));
 
 app.get('/', (req, res) => {
   res.send('Welcome to my movie app!');
 });
+
 
 // Create: Allow users to add a movie by movie ID to their list of favorites 
 app.post('/users/:Username/movies/:MovieID', async (req, res) => {
@@ -79,15 +88,15 @@ app.post('/users', async (req, res) => {
     });
 });
 
-// Read: Return a list of ALL movies 
-app.get('/movies', (req, res) => {
-    Movies.find()
+// Read: Return a list of ALL movies with passport authentication
+app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  await Movies.find()
     .then((movies) => {
-        res.status(201).json(movies);
+      res.status(201).json(movies);
     })
-    .catch((err) => {
-        console.error(err);
-        res.status(500).send('Error: ' + err);
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send('Error: ' + error);
     });
 });
 
@@ -254,15 +263,30 @@ app.delete("/users/:Username/movies/:MovieID", async (req, res) => {
 });
 
   // Delete: Allow existing users to deregister
-app.delete("/users/:Username", async (req, res) => {
-    try {
-  const user = await Users.findOneAndDelete({ Username: req.params.Username });
-  user
-  ? res.status(200).send(`${req.params.Username} was deleted.`)
-  : res.status(400).send(`${req.params.Username} was not found`);
-} catch (err) {
-  res.status(500).send("Error: " + err);
-}
+// app.delete("/users/:Username", async (req, res) => {
+//     try {
+//   const user = await Users.findOneAndDelete({ Username: req.params.Username });
+//   user
+//   ? res.status(200).send(`${req.params.Username} was deleted.`)
+//   : res.status(400).send(`${req.params.Username} was not found`);
+// } catch (err) {
+//   res.status(500).send("Error: " + err);
+// }
+// });
+
+app.delete('/users/:Username', async (req, res) => {
+  await Users.findOneAndRemove({ Username: req.params.Username })
+    .then((user) => {
+      if (!user) {
+        res.status(400).send(req.params.Username + ' was not found');
+      } else {
+        res.status(200).send(req.params.Username + ' was deleted.');
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
 });
 
 // access documentation.html using express.static

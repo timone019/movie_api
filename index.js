@@ -14,17 +14,19 @@ const Users = Models.User;
 // MongoDB Connection via Mongoose
 mongoose.connect('mongodb://127.0.0.1:27017/cfDB');
 
-// importing body parser
-app.use(bodyParser.json());
-
 // log requests to server
 app.use(morgan('common'));
 
+// importing body parser
+app.use(bodyParser.json());
+
 // middleware for parsing requests
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// app.use(express.urlencoded({ extended: true }));
 
-// middleware for passport
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Import auth.js
 let auth = require('./auth')(app);
 
 // require passport authentication
@@ -40,7 +42,7 @@ app.get('/', (req, res) => {
 
 
 // Create: Allow users to add a movie by movie ID to their list of favorites 
-app.post('/users/:Username/movies/:MovieID', async (req, res) => {
+app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Users.findOneAndUpdate({ Username: req.params.Username }, {
      $push: { FavoriteMovies: req.params.MovieID }
    },
@@ -88,8 +90,8 @@ app.post('/users', async (req, res) => {
     });
 });
 
-// Read: Return a list of ALL movies with passport authentication
-app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
+// Read: Return a list of ALL movies 
+app.get('/movies', async (req, res) => {
   await Movies.find()
     .then((movies) => {
       res.status(201).json(movies);
@@ -175,7 +177,7 @@ app.get('/directors/:directorName', (req, res) => {
   });
 
 // Read: Return a list of ALL users
-app.get("/users", function(req, res) {
+app.get("/users", passport.authenticate('jwt', { session: false }), function(req, res) {
   Users.find()
   .then(function (users) {
       res.status(200).json(users || []); // Send an empty array if 'users' is falsy
@@ -187,7 +189,7 @@ app.get("/users", function(req, res) {
 });
 
   // Read: Return data about a single user by username
-app.get('/users/:Username', async (req, res) => {
+app.get('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Users.findOne({ Username: req.params.Username })
       .then((user) => {
         res.json(user);
@@ -211,19 +213,45 @@ app.get('/users/:Username', async (req, res) => {
 }*/
 
 //Update: Allow users to update their info
-app.put("/users/:Username", async (req, res) => {
-  try {
-    const updatedUser = await Users.findOneAndUpdate(
-      { Username: req.params.Username },
-      { $set: req.body },
-      { new: true }
-    );
-    updatedUser
-      ? res.json(updatedUser)
-      : res.status(404).send("User not found");
-  } catch (err) {
-    res.status(500).send("Error: " + err);
+// app.put("/users/:Username", passport.authenticate('jwt', { session: false }), async (req, res) => {
+//   try {
+//     const updatedUser = await Users.findOneAndUpdate(
+//       { Username: req.params.Username },
+//       { $set: req.body },
+//       { new: true }
+//     );
+//     updatedUser
+//       ? res.json(updatedUser)
+//       : res.status(404).send("User not found");
+//   } catch (err) {
+//     res.status(500).send("Error: " + err);
+//   }
+// });
+
+// 2.9 version of update user info with passport
+app.put('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  // CONDITION TO CHECK ADDED HERE
+  if(req.user.Username !== req.params.Username){
+      return res.status(400).send('Permission denied');
   }
+  // CONDITION ENDS
+  await Users.findOneAndUpdate({ Username: req.params.Username }, {
+      $set:
+      {
+          Username: req.body.Username,
+          Password: req.body.Password,
+          Email: req.body.Email,
+          Birthday: req.body.Birthday
+      }
+  },
+      { new: true }) // This line makes sure that the updated document is returned
+      .then((updatedUser) => {
+          res.json(updatedUser);
+      })
+      .catch((err) => {
+          console.log(err);
+          res.status(500).send('Error: ' + err);
+      })
 });
 
 // this method works but breaks for any gets that have anything in the param body
@@ -247,7 +275,7 @@ app.put("/users/:Username", async (req, res) => {
 //   });
 
 // Delete: Allow users to remove a movie from their list of favorites
-app.delete("/users/:Username/movies/:MovieID", async (req, res) => {
+app.delete("/users/:Username/movies/:MovieID", passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
     const updatedUser = await Users.findOneAndUpdate(
       { Username: req.params.Username },
@@ -274,8 +302,8 @@ app.delete("/users/:Username/movies/:MovieID", async (req, res) => {
 // }
 // });
 
-app.delete('/users/:Username', async (req, res) => {
-  await Users.findOneAndRemove({ Username: req.params.Username })
+app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  await Users.findOneAndUpdate({ Username: req.params.Username })
     .then((user) => {
       if (!user) {
         res.status(400).send(req.params.Username + ' was not found');

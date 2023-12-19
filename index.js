@@ -1,6 +1,7 @@
 const express = require('express');
-  bodyParser = require('body-parser'),
-  uuid = require('uuid');
+
+  // bodyParser = require('body-parser'), this body parser is not needed as it is included in express
+  // uuid = require('uuid');
 
 const morgan = require('morgan');
 const app = express();
@@ -12,7 +13,7 @@ const Movies = Models.Movie;
 const Users = Models.User;
 
 // MongoDB Connection via Mongoose
-mongoose.connect('mongodb://127.0.0.1:27017/cfDB');
+mongoose.connect(process.env.CONNECTION_URI);
 
 // log requests to server
 app.use(morgan('common'));
@@ -29,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Enable CORS
 const cors = require('cors');
 
-// CORS Access
+// CORS LimitedAccess
 let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
 
 app.use(cors({
@@ -273,11 +274,12 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), as
       return res.status(400).send('Permission denied');
   }
   // CONDITION ENDS
+  let hashedPassword = Users.hashPassword(req.body.Password);
   await Users.findOneAndUpdate({ Username: req.params.Username }, {
       $set:
       {
           Username: req.body.Username,
-          Password: req.body.Password,
+          Password: hashedPassword,
           Email: req.body.Email,
           Birthday: req.body.Birthday
       }
@@ -366,6 +368,6 @@ app.use((err, req, res, next) => {
 
 // Start server
 const port = process.env.PORT || 8080;
-app.listen(port, '0.0.0.0',() => {
+app.listen(port, () => {
  console.log('Listening on Port ' + port);
 });

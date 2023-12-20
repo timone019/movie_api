@@ -217,7 +217,7 @@ app.get('/directors/:directorName', (req, res) => {
   });
 
 // Read: Return a list of ALL users
-app.get("/users", passport.authenticate('jwt', { session: false }), function(req, res) {
+app.get("/users", function(req, res) {
   Users.find()
   .then(function (users) {
       res.status(200).json(users || []); // Send an empty array if 'users' is falsy

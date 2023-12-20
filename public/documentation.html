@@ -26,7 +26,7 @@
     
       <!-- Get All Movies -->
       <tr>
-        <td>/api/movies</td>
+        <td>/movies</td>
         <td>GET</td>
         <td></td>
         <td></td>
@@ -37,7 +37,7 @@
     
       <!-- Get Single Movie by Title -->
       <tr>
-        <td>/api/movies/:title</td>
+        <td>/movies/:title</td>
         <td>GET</td>
         <td>Title (string)</td>
         <td></td>
@@ -48,7 +48,7 @@
     
       <!-- Get Genre by Name -->
       <tr>
-        <td>/api/genres/:name</td>
+        <td>/genres/:name</td>
         <td>GET</td>
         <td>Name (string)</td>
         <td></td>
@@ -59,7 +59,7 @@
     
       <!-- Get Director by Name -->
       <tr>
-        <td>/api/directors/:name</td>
+        <td>/directors/:name</td>
         <td>GET</td>
         <td>Name (string)</td>
         <td></td>
@@ -70,7 +70,7 @@
     
       <!-- User Registration -->
       <tr>
-        <td>/api/users/register</td>
+        <td>/users/register</td>
         <td>POST</td>
         <td></td>
         <td>{ username, password, email, dob }</td>
@@ -81,7 +81,7 @@
     
       <!-- Update User Info -->
       <tr>
-        <td>/api/users/:userId</td>
+        <td>/users/:userId</td>
         <td>PUT</td>
         <td>UserID (string)</td>
         <td>{ username, password, email, dob }</td>
@@ -92,7 +92,7 @@
     
       <!-- Add Movie to Favorites -->
       <tr>
-        <td>/api/users/:userId/favorites</td>
+        <td>/users/:userId/favorites</td>
         <td>POST</td>
         <td>UserID (string)</td>
         <td>{ movieId }</td>
@@ -103,7 +103,7 @@
     
       <!-- Remove Movie from Favorites -->
       <tr>
-        <td>/api/users/:userId/favorites/:movieId</td>
+        <td>/users/:userId/favorites/:movieId</td>
         <td>DELETE</td>
         <td>UserID (string), MovieID (string)</td>
         <td></td>
@@ -114,7 +114,7 @@
     
       <!-- Deregister User -->
       <tr>
-        <td>/api/users/:userId</td>
+        <td>/users/:userId</td>
         <td>DELETE</td>
         <td>UserID (string)</td>
         <td></td>

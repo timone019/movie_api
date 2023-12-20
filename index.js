@@ -1,7 +1,8 @@
 const express = require('express');
 
   // bodyParser = require('body-parser'), this body parser is not needed as it is included in express
-  // uuid = require('uuid');
+  
+  uuid = require('uuid');
 
 const morgan = require('morgan');
 const app = express();
@@ -19,13 +20,13 @@ mongoose.connect(process.env.CONNECTION_URI);
 app.use(morgan('common'));
 
 // importing body parser
-app.use(bodyParser.json());
+// app.use(bodyParser.json()); not needed as it is included in express
 
 // middleware for parsing requests
 app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.urlencoded({ extended: true })); not needed, included in express
 
 // Enable CORS
 const cors = require('cors');
@@ -368,6 +369,6 @@ app.use((err, req, res, next) => {
 
 // Start server
 const port = process.env.PORT || 8080;
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
  console.log('Listening on Port ' + port);
 });

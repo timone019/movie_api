@@ -1,7 +1,5 @@
 const express = require('express');
 
-  // bodyParser = require('body-parser'), this body parser is not needed as it is included in express
-  
   uuid = require('uuid');
 
 const morgan = require('morgan');
@@ -19,14 +17,9 @@ mongoose.connect(process.env.CONNECTION_URI);
 // log requests to server
 app.use(morgan('common'));
 
-// importing body parser
-// app.use(bodyParser.json()); not needed as it is included in express
-
 // middleware for parsing requests
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// app.use(bodyParser.urlencoded({ extended: true })); not needed, included in express
 
 // Enable CORS
 const cors = require('cors');
@@ -60,7 +53,6 @@ app.use(express.static('public'));
 app.get('/', (req, res) => {
   res.send('Welcome to my movie app!');
 });
-
 
 // Create: Allow users to add a movie by movie ID to their list of favorites 
 app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
@@ -295,26 +287,6 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), as
       })
 });
 
-// this method works but breaks for any gets that have anything in the param body
-// app.put('/users/:Username', async (req, res) => {
-//     await Users.findOneAndUpdate({ Username: req.params.Username }, { $set:
-//       {
-//         Username: req.body.Username,
-//         Password: req.body.Password,
-//         Email: req.body.Email,
-//         Birthday: req.body.Birthday
-//       },
-//     },
-//     { new: true }) // This line makes sure that the updated document is returned
-//     .then((updatedUser) => {
-//       res.json(updatedUser);
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//       res.status(500).send('Error: ' + err);
-//     })
-//   });
-
 // Delete: Allow users to remove a movie from their list of favorites
 app.delete("/users/:Username/movies/:MovieID", passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
@@ -332,17 +304,6 @@ app.delete("/users/:Username/movies/:MovieID", passport.authenticate('jwt', { se
 });
 
   // Delete: Allow existing users to deregister
-// app.delete("/users/:Username", async (req, res) => {
-//     try {
-//   const user = await Users.findOneAndDelete({ Username: req.params.Username });
-//   user
-//   ? res.status(200).send(`${req.params.Username} was deleted.`)
-//   : res.status(400).send(`${req.params.Username} was not found`);
-// } catch (err) {
-//   res.status(500).send("Error: " + err);
-// }
-// });
-
 app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Users.findOneAndUpdate({ Username: req.params.Username })
     .then((user) => {
@@ -357,6 +318,18 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
       res.status(500).send('Error: ' + err);
     });
 });
+
+// try catch method
+// app.delete("/users/:Username", async (req, res) => {
+//     try {
+//   const user = await Users.findOneAndDelete({ Username: req.params.Username });
+//   user
+//   ? res.status(200).send(`${req.params.Username} was deleted.`)
+//   : res.status(400).send(`${req.params.Username} was not found`);
+// } catch (err) {
+//   res.status(500).send("Error: " + err);
+// }
+// });
 
 // access documentation.html using express.static
 app.use("/documentation", express.static("public"));

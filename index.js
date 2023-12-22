@@ -253,6 +253,11 @@ app.get(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
+       // CONDITION TO CHECK PERMISSION
+       if (req.user.Username !== req.params.Username) {
+        return res.status(400).send("Permission denied");
+      }
+      // PERMISSION CHECK ENDS
     await Users.findOne({ Username: req.params.Username })
       .then((user) => {
         res.json(user);
@@ -341,31 +346,6 @@ app.delete(
   }
 );
 
-// Delete: Allow users to remove a movie from their list of favorites
-// app.delete(
-//   "/users/:Username/movies/:MovieID",
-//   passport.authenticate("jwt", { session: false }),
-//   async (req, res) => {
-//     // CONDITION TO CHECK USER MATCHING
-//     if (req.user.Username !== req.params.Username) {
-//       return res.status(400).send("Permission denied");
-//     }
-//     // CONDITION ENDS
-//     try {
-//       const updatedUser = await Users.findOneAndUpdate(
-//         { Username: req.params.Username },
-//         { $pull: { FavoriteMovies: req.params.MovieID } },
-//         { new: true }
-//       );
-//       updatedUser
-//         ? res.json(updatedUser)
-//         : res.status(404).send("Delete didn't work");
-//     } catch (err) {
-//       res.status(500).send("Error: " + err);
-//     }
-//   }
-// );
-
 // Delete: Allow existing users to deregister
 app.delete(
   "/users/:Username",
@@ -385,18 +365,6 @@ app.delete(
       });
   }
 );
-
-// try catch method
-// app.delete("/users/:Username", async (req, res) => {
-//     try {
-//   const user = await Users.findOneAndDelete({ Username: req.params.Username });
-//   user
-//   ? res.status(200).send(`${req.params.Username} was deleted.`)
-//   : res.status(400).send(`${req.params.Username} was not found`);
-// } catch (err) {
-//   res.status(500).send("Error: " + err);
-// }
-// });
 
 // access documentation.html using express.static
 app.use("/documentation", express.static("public"));

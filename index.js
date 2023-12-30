@@ -236,17 +236,31 @@ app.get("/directors/:directorName", (req, res) => {
 app.get(
   "/users",
   passport.authenticate("jwt", { session: false }),
-  function (req, res) {
-    Users.find()
-      .then(function (users) {
-        res.status(200).json(users || []); // Send an empty array if 'users' is falsy
-      })
-      .catch(function (err) {
-        console.error(err);
-        res.status(500).send("Error: " + err);
-      });
+  async (req, res) => {
+    try {
+      const users = await Users.find();
+      res.status(200).json(users);
+    } catch (err) {
+      res.status(500).send("Error: " + err);
+    }
   }
 );
+
+
+// app.get(
+//   "/users",
+//   passport.authenticate("jwt", { session: false }),
+//   function (req, res) {
+//     Users.find()
+//       .then(function (users) {
+//         res.status(200).json(users || []); // Send an empty array if 'users' is falsy
+//       })
+//       .catch(function (err) {
+//         console.error(err);
+//         res.status(500).send("Error: " + err);
+//       });
+//   }
+// );
 
 // Read: Return data about a single user by username
 app.get(

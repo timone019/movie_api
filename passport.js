@@ -9,7 +9,7 @@ let Users = Models.User,
 
   // Load the JWT secret from environment variable
 // const jwtSecret = process.env.JWT_SECRET || 'default_secret';
-const jwtSecret = process.env.JWT_SECRET || 'your_jwt_secret';
+// const jwtSecret = process.env.JWT_SECRET || 'your_jwt_secret';
 
 passport.use(
   new LocalStrategy(

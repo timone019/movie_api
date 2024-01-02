@@ -61,8 +61,8 @@ app.get("/", (req, res) => {
 
 // Create: Allow users to add a movie by movie ID to their list of favorites
 app.post(
-  "/users/:Username/movies/:MovieID",
-  async (req, res) => { passport.authenticate("jwt", { session: false })
+  "/users/:Username/movies/:MovieID", passport.authenticate("jwt", { session: false }),
+  async (req, res) => { 
     // CONDITION TO CHECK PERMISSION
     if (req.user.Username !== req.params.Username) {
       return res.status(400).send("Permission denied");
@@ -233,8 +233,9 @@ app.get("/directors/:directorName", (req, res) => {
 
 // Read: Return a list of ALL users
 app.get(
-  "/users",
-  async (req, res) => { passport.authenticate("jwt", { session: false })
+  "/users", 
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
     try {
       const users = await Users.find();
       res.status(200).json(users);
@@ -243,6 +244,31 @@ app.get(
     }
   }
 );
+
+//co pilot suggestion for after =>
+// app.get(
+//   "/users",
+//   async (req, res, next) => {
+//     passport.authenticate("jwt", { session: false }, (err, user, info) => {
+//       if (err) {
+//         return next(err);
+//       }
+//       if (!user) {
+//         return res.status(401).send(info.message);
+//       }
+//       req.user = user;
+//       next();
+//     })(req, res, next);
+//   },
+//   async (req, res) => {
+//     try {
+//       const users = await Users.find();
+//       res.status(200).json(users);
+//     } catch (err) {
+//       res.status(500).send("Error: " + err);
+//     }
+//   }
+// );
 
 // .then .catch method
 // app.get(
@@ -261,9 +287,12 @@ app.get(
 // );
 
 // Read: Return data about a single user by username
+
+
+
 app.get(
-  "/users/:Username",
-  async (req, res) => { passport.authenticate("jwt", { session: false })
+  "/users/:Username", passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
        // CONDITION TO CHECK PERMISSION
        if (req.user.Username !== req.params.Username) {
         return res.status(400).send("Permission denied");
@@ -280,6 +309,20 @@ app.get(
   }
 );
 
+// try catch method
+// app.get(
+//   "/users/:Username",
+//   async (req, res) => {
+//     try {
+//       passport.authenticate("jwt", { session: false });
+//       const user = await Users.findOne({ Username: req.params.Username });
+//       user ? res.json(user) : res.status(404).send("User not found");
+//     } catch (err) {
+//       res.status(500).send("Error: " + err);
+//     }
+//   }
+// );
+
 // Update a user's info, by username
 /* We’ll expect JSON in this format
 {
@@ -294,8 +337,8 @@ app.get(
 
 // Update: Allow users to update only their user info via passport with token 
 app.put(
-  "/users/:Username",
-  async (req, res) => { passport.authenticate("jwt", { session: false })
+  "/users/:Username", passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
     // CONDITION TO CHECK ADDED HERE
     if (req.user.Username !== req.params.Username) {
       return res.status(400).send("Permission denied");
@@ -326,8 +369,8 @@ app.put(
 
 // Delete: Allow users to remove a movie from their list of favorites
 app.delete(
-  "/users/:Username/movies/:MovieID",
-  (req, res) => { passport.authenticate("jwt", { session: false })
+  "/users/:Username/movies/:MovieID", passport.authenticate("jwt", { session: false }),
+  (req, res) => { 
     // CONDITION TO CHECK PERMISSION
     if (req.user.Username !== req.params.Username) {
       return res.status(400).send("Permission denied");
@@ -357,9 +400,8 @@ app.delete(
 
 // Delete: Allow existing users to deregister
 app.delete(
-  "/users/:Username",
-  
-  async (req, res) => { passport.authenticate("jwt", { session: false })
+  "/users/:Username", passport.authenticate("jwt", { session: false }),
+  async (req, res) => { 
     await Users.findOneAndDelete({ Username: req.params.Username })
       .then((user) => {
         if (!user) {

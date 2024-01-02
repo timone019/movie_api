@@ -8,7 +8,7 @@ let Users = Models.User,
   ExtractJWT = passportJWT.ExtractJwt;
 
   // Load the JWT secret from environment variable
-const jwtSecret = process.env.JWT_SECRET || 'default_secret';
+const jwtSecret = process.env.JWT_SECRET || 'your_jwt_secret';
 
 passport.use(
   new LocalStrategy(
@@ -45,15 +45,15 @@ passport.use(
 
 passport.use(new JWTStrategy({
   jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-  secretOrKey: process.env.JWT_SECRET // Use environment variable
+  secretOrKey: jwtSecret // This has to be the same key used in the JWTStrategy
 }, async (jwtPayload, callback) => {
   return await Users.findById(jwtPayload._id)
     .then((user) => {
-      console.log(`User with ID ${user._id} authenticated`); // Log user ID instead of entire user object
+      console.log(`User with ID ${user._id} authenticated`,jwtSecret); // Log user ID instead of entire user object
       return callback(null, user);
     })
     .catch((error) => {
-      console.log(error);
+      console.log(error, jwtSecret);
       return callback(error);
     });
 }));

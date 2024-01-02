@@ -50,11 +50,11 @@ passport.use(new JWTStrategy({
 }, async (jwtPayload, callback) => {
   return await Users.findById(jwtPayload._id)
     .then((user) => {
-      console.log(user); // Log the user
+      console.log(`User with ID ${user._id} authenticated`); // Log user ID instead of entire user object
       return callback(null, user);
     })
     .catch((error) => {
-      console.log(error); // Log the error
-      return callback(error)
+      console.log(error);
+      return callback(error);
     });
 }));

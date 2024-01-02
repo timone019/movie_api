@@ -9,13 +9,22 @@
   </head>
 
   <body>
-    <h1>Movie and User API Documentation via Mongoose Logic</h1>
+    <h1>Movie and User API Documentation</h1>
+    <p>
+      This documentation provides detailed information about the API endpoints
+      available in the Movie and User API. It includes the HTTP methods,
+      endpoints, parameters, request bodies, and descriptions of each API
+      function. Additionally, it outlines the Mongoose logic used in the backend
+      for database operations and the expected format of the API responses.
+    </p>
+    <h2>Mongoose Logic</h2>
 
     <table>
       <tr>
         <th>Method</th>
         <th>Endpoint</th>
         <th>Parameters</th>
+        <th>Auth</th>
         <th>Request Body</th>
         <th>Description</th>
         <th>Mongoose Logic</th>
@@ -27,9 +36,9 @@
         <td>GET</td>
         <td>/movies</td>
         <td></td>
-        <td></td>
+        <td>no</td>
         <td>Returns a list of all movies.</td>
-        <td>Movie.find({})</td>
+        <td>Movies.find({})</td>
         <td>[{ movieObject1 }, { movieObject2 }, ...]</td>
       </tr>
 
@@ -38,55 +47,96 @@
         <td>GET</td>
         <td>/movies/:title</td>
         <td>Title (string)</td>
-        <td></td>
+        <td>no</td>
         <td>Returns data about a single movie.</td>
-        <td>Movie.findOne({ title: req.params.title })</td>
+        <td>Movies.findOne({ title: req.params.title })</td>
+        <td>{ movieObject }</td>
+      </tr>
+
+      <!-- PUT: Update a movie by title -->
+      <tr>
+        <td>PUT</td>
+        <td>/movies/:title</td>
+        <td>Title (string)</td>
+        <td>yes</td>
+        <td>update a movie by title</td>
+        <td>Movies.findOneAndUpdate({ Title: req.params.Title })</td>
+        <td>{ movieObject }</td>
+      </tr>
+
+      <!-- Get All Genre -->
+      <tr>
+        <td>GET</td>
+        <td>/movies/genres</td>
+        <td>Name (string)</td>
+        <td>no</td>
+        <td>Returns a list of all genres.</td>
+        <td>Movies.distinct("Genre.Name")</td>
         <td>{ movieObject }</td>
       </tr>
 
       <!-- Get Genre by Name -->
       <tr>
         <td>GET</td>
-        <td>/genres/:name</td>
+        <td>/movies/genres/:genreName</td>
         <td>Name (string)</td>
-        <td></td>
+        <td>no</td>
         <td>Returns data about a genre.</td>
-        <td>Genre.findOne({ name: req.params.name })</td>
-        <td>{ genreObject }</td>
+        <td>Movies.findone({ "Genre.Name": req.params.genreName })</td>
+        <td>{ movieObject }</td>
+      </tr>
+
+      <!-- Get all Directors -->
+      <tr>
+        <td>GET</td>
+        <td>/directors</td>
+        <td>Name (string)</td>
+        <td>no</td>
+        <td>Returns a list of all directors.</td>
+        <td>Movies.distinct("Director.Name")</td>
+        <td>{ movieObject }</td>
       </tr>
 
       <!-- Get Director by Name -->
       <tr>
         <td>GET</td>
-        <td>/directors/:name</td>
+        <td>/directors/:directorName</td>
         <td>Name (string)</td>
-        <td></td>
+        <td>no</td>
         <td>Returns data about a director.</td>
-        <td>Director.findOne({ name: req.params.name })</td>
-        <td>{ directorObject }</td>
+        <td>Movies.findOne({"Director.Name": req.params.directorName }),</td>
+        <td>{ movieObject }</td>
       </tr>
 
       <!-- User Registration -->
       <tr>
         <td>POST</td>
-        <td>/users/register</td>
-        <td></td>
-        <td>{ username, password, email, dob }</td>
+        <td>/users</td>
+        <td>no</td>
+        <td>{ username, password, email, birthday }</td>
         <td>Allows new users to register.</td>
-        <td>User.create(req.body)</td>
+        <td>Users.create(req.body)</td>
         <td>{ success: true, message: "User registered successfully" }</td>
       </tr>
 
+      <!-- Token Creation -->
+      <tr>
+        <td>POST</td>
+        <td>/login</td>
+        <td>no</td>
+        <td>{ username, password }</td>
+        <td>Allows new users to generate JWT token.</td>
+        <td>passport.authenticate</td>
+        <td>{ return res.json({ user, token }) }</td>
+      </tr>
       <!-- Update User Info -->
       <tr>
         <td>PUT</td>
-        <td>/users/:userId</td>
-        <td>UserID (string)</td>
-        <td>{ username, password, email, dob }</td>
+        <td>/users/:Username</td>
+        <td>Username (string)</td>
+        <td>{ username, password, email, birthday }</td>
         <td>Allows users to update their user info.</td>
-        <td>
-          User.findByIdAndUpdate(req.params.userId, req.body, { new: true })
-        </td>
+        <td>Users.findOneAndUpdate({ Username: req.params.Username })</td>
         <td>
           { success: true, message: "User updated successfully", updatedUser: {
           updatedUserInfo } }
@@ -96,13 +146,12 @@
       <!-- Add Movie to Favorites -->
       <tr>
         <td>POST</td>
-        <td>/users/:userId/favorites</td>
-        <td>UserID (string)</td>
-        <td>{ movieId }</td>
+        <td>/users/:username/movies/:MovieID</td>
+        <td>Username (string), MovieID (string)</td>
+        <td>yes</td>
         <td>Allows users to add a movie to their favorites.</td>
         <td>
-          User.findByIdAndUpdate(req.params.userId, { $push: { favorites:
-          req.body.movieId } })
+          updatedUser = await Users.findOneAndUpdate({ _id: req.params.userId})
         </td>
         <td>
           { success: true, message: "Movie added to favorites successfully" }
@@ -112,21 +161,27 @@
       <!-- Remove Movie from Favorites -->
       <tr>
         <td>DELETE</td>
-        <td>/users/:userId/favorites/:movieId</td>
-        <td>UserID (string), MovieID (string)</td>
-        <td></td>
+        <td>/users/:Username/movies/:MovieID</td>
+        <td>Username (string), MovieID (string)</td>
+        <td>yes</td>
         <td>Allows users to remove a movie from their favorites.</td>
-        <td>
-          User.findByIdAndUpdate(req.params.userId, { $pull: { favorites:
-          req.params.movieId } })
-        </td>
+        <td>updatedUser = await Users.findOneAndUpdate</td>
         <td>
           { success: true, message: "Movie removed from favorites successfully"
           }
         </td>
       </tr>
 
-      <!-- Deregister User -->
+      <!-- Delete: Deregister User -->
+      <tr>
+        <td>DELETE</td>
+        <td>/users/:Username</td>
+        <td>Username (string), MovieID (string)</td>
+        <td>yes</td>
+        <td>Allows users to delete user.</td>
+        <td>updatedUser = await Users.findOneAndDelete</td>
+        <td>{ success: true, message: "User was deleted" }</td>
+      </tr>
     </table>
   </body>
 </html>

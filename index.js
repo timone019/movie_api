@@ -62,8 +62,7 @@ app.get("/", (req, res) => {
 // Create: Allow users to add a movie by movie ID to their list of favorites
 app.post(
   "/users/:Username/movies/:MovieID",
-  passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
+  async (req, res) => { passport.authenticate("jwt", { session: false })
     // CONDITION TO CHECK PERMISSION
     if (req.user.Username !== req.params.Username) {
       return res.status(400).send("Permission denied");
@@ -235,8 +234,7 @@ app.get("/directors/:directorName", (req, res) => {
 // Read: Return a list of ALL users
 app.get(
   "/users",
-  passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
+  async (req, res) => { passport.authenticate("jwt", { session: false })
     try {
       const users = await Users.find();
       res.status(200).json(users);
@@ -246,7 +244,7 @@ app.get(
   }
 );
 
-
+// .then .catch method
 // app.get(
 //   "/users",
 //   passport.authenticate("jwt", { session: false }),
@@ -265,8 +263,7 @@ app.get(
 // Read: Return data about a single user by username
 app.get(
   "/users/:Username",
-  passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
+  async (req, res) => { passport.authenticate("jwt", { session: false })
        // CONDITION TO CHECK PERMISSION
        if (req.user.Username !== req.params.Username) {
         return res.status(400).send("Permission denied");
@@ -298,8 +295,7 @@ app.get(
 // Update: Allow users to update only their user info via passport with token 
 app.put(
   "/users/:Username",
-  passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
+  async (req, res) => { passport.authenticate("jwt", { session: false })
     // CONDITION TO CHECK ADDED HERE
     if (req.user.Username !== req.params.Username) {
       return res.status(400).send("Permission denied");
@@ -331,8 +327,7 @@ app.put(
 // Delete: Allow users to remove a movie from their list of favorites
 app.delete(
   "/users/:Username/movies/:MovieID",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
+  (req, res) => { passport.authenticate("jwt", { session: false })
     // CONDITION TO CHECK PERMISSION
     if (req.user.Username !== req.params.Username) {
       return res.status(400).send("Permission denied");
@@ -363,8 +358,8 @@ app.delete(
 // Delete: Allow existing users to deregister
 app.delete(
   "/users/:Username",
-  passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
+  
+  async (req, res) => { passport.authenticate("jwt", { session: false })
     await Users.findOneAndDelete({ Username: req.params.Username })
       .then((user) => {
         if (!user) {

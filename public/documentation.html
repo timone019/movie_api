@@ -19,6 +19,8 @@
     </p>
     <h2>Mongoose Logic</h2>
 
+    <h3>App site: https://mymovies-8b73c95d0ae4.herokuapp.com</h3>
+
     <table>
       <tr>
         <th>Method</th>
@@ -31,123 +33,36 @@
         <th>Expected Response</th>
       </tr>
 
-      <!-- Get All Movies -->
-      <tr>
-        <td>GET</td>
-        <td>/movies</td>
-        <td></td>
-        <td>no</td>
-        <td>Returns a list of all movies.</td>
-        <td>Movies.find({})</td>
-        <td>[{ movieObject1 }, { movieObject2 }, ...]</td>
-      </tr>
-
-      <!-- Get Single Movie by Title -->
-      <tr>
-        <td>GET</td>
-        <td>/movies/:title</td>
-        <td>Title (string)</td>
-        <td>no</td>
-        <td>Returns data about a single movie.</td>
-        <td>Movies.findOne({ title: req.params.title })</td>
-        <td>{ movieObject }</td>
-      </tr>
-
-      <!-- PUT: Update a movie by title -->
-      <tr>
-        <td>PUT</td>
-        <td>/movies/:title</td>
-        <td>Title (string)</td>
-        <td>yes</td>
-        <td>update a movie by title</td>
-        <td>Movies.findOneAndUpdate({ Title: req.params.Title })</td>
-        <td>{ movieObject }</td>
-      </tr>
-
-      <!-- Get All Genre -->
-      <tr>
-        <td>GET</td>
-        <td>/movies/genres</td>
-        <td>Name (string)</td>
-        <td>no</td>
-        <td>Returns a list of all genres.</td>
-        <td>Movies.distinct("Genre.Name")</td>
-        <td>{ movieObject }</td>
-      </tr>
-
-      <!-- Get Genre by Name -->
-      <tr>
-        <td>GET</td>
-        <td>/movies/genres/:genreName</td>
-        <td>Name (string)</td>
-        <td>no</td>
-        <td>Returns data about a genre.</td>
-        <td>Movies.findone({ "Genre.Name": req.params.genreName })</td>
-        <td>{ movieObject }</td>
-      </tr>
-
-      <!-- Get all Directors -->
-      <tr>
-        <td>GET</td>
-        <td>/directors</td>
-        <td>Name (string)</td>
-        <td>no</td>
-        <td>Returns a list of all directors.</td>
-        <td>Movies.distinct("Director.Name")</td>
-        <td>{ movieObject }</td>
-      </tr>
-
-      <!-- Get Director by Name -->
-      <tr>
-        <td>GET</td>
-        <td>/directors/:directorName</td>
-        <td>Name (string)</td>
-        <td>no</td>
-        <td>Returns data about a director.</td>
-        <td>Movies.findOne({"Director.Name": req.params.directorName }),</td>
-        <td>{ movieObject }</td>
-      </tr>
-
-      <!-- User Registration -->
+      <!-- Create: User Registration -->
       <tr>
         <td>POST</td>
-        <td>/users</td>
+        <td>/users/register</td>
+        <td>{"Username": req.body.Username,
+          "Password": hashedPassword,
+          "Email": req.body.Email,
+          "Birthday": req.body.Birthday }</td>
         <td>no</td>
         <td>{ username, password, email, birthday }</td>
-        <td>Allows new users to register.</td>
-        <td>Users.create(req.body)</td>
+        <td>Allow new users to register.</td>
         <td>{ success: true, message: "User registered successfully" }</td>
       </tr>
 
-      <!-- Token Creation -->
+      <!-- Create:Token Creation -->
       <tr>
         <td>POST</td>
         <td>/login</td>
-        <td>no</td>
-        <td>{ username, password }</td>
+        <td>{ Username, Password }</td>
+        <td>yes</td>
         <td>Allows new users to generate JWT token.</td>
         <td>passport.authenticate</td>
         <td>{ return res.json({ user, token }) }</td>
       </tr>
-      <!-- Update User Info -->
-      <tr>
-        <td>PUT</td>
-        <td>/users/:Username</td>
-        <td>Username (string)</td>
-        <td>{ username, password, email, birthday }</td>
-        <td>Allows users to update their user info.</td>
-        <td>Users.findOneAndUpdate({ Username: req.params.Username })</td>
-        <td>
-          { success: true, message: "User updated successfully", updatedUser: {
-          updatedUserInfo } }
-        </td>
-      </tr>
 
-      <!-- Add Movie to Favorites -->
+      <!-- Create: Add Movie to Favorites -->
       <tr>
         <td>POST</td>
         <td>/users/:username/movies/:MovieID</td>
-        <td>Username (string), MovieID (string)</td>
+        <td>{ FavoriteMovies: req.params.MovieID }</td>
         <td>yes</td>
         <td>Allows users to add a movie to their favorites.</td>
         <td>
@@ -158,11 +73,102 @@
         </td>
       </tr>
 
-      <!-- Remove Movie from Favorites -->
+      <!-- Get All Movies -->
+      <tr>
+        <td>GET</td>
+        <td>/movies</td>
+        <td>none</td>
+        <td>no</td>
+        <td>Returns a list of all movies.</td>
+        <td>Movies.find({})</td>
+        <td>[{ movieObject1 }, { movieObject2 }, ...]</td>
+      </tr>
+
+      <!-- Get Single Movie by Title -->
+      <tr>
+        <td>GET</td>
+        <td>/movies/:title</td>
+        <td>none</td>
+        <td>no</td>
+        <td>Returns data about a single movie.</td>
+        <td>Movies.findOne({ title: req.params.title })</td>
+        <td>{ movieObject }</td>
+      </tr>
+
+      <!-- Read: Get All Genre -->
+      <tr>
+        <td>GET</td>
+        <td>/movies/genres</td>
+        <td>none</td>
+        <td>no</td>
+        <td>Returns a list of all genres.</td>
+        <td>Movies.distinct("Genre.Name")</td>
+        <td>{ movieObject }</td>
+      </tr>
+
+      <!-- Read: Get Genre by Name -->
+      <tr>
+        <td>GET</td>
+        <td>/movies/genres/:genreName</td>
+        <td>none</td>
+        <td>no</td>
+        <td>Returns data about a genre.</td>
+        <td>Movies.findone({ "Genre.Name": req.params.genreName })</td>
+        <td>{ movieObject }</td>
+      </tr>
+
+      <!-- Read: Get all Directors -->
+      <tr>
+        <td>GET</td>
+        <td>/directors</td>
+        <td>none</td>
+        <td>no</td>
+        <td>Returns a list of all directors.</td>
+        <td>Movies.distinct("Director.Name")</td>
+        <td>{ movieObject }</td>
+      </tr>
+
+      <!-- Read: Get Director by Name -->
+      <tr>
+        <td>GET</td>
+        <td>/directors/:directorName</td>
+        <td>none</td>
+        <td>no</td>
+        <td>Returns data about a director.</td>
+        <td>Movies.findOne({"Director.Name": req.params.directorName }),</td>
+        <td>{ movieObject }</td>
+      </tr>
+
+      <!-- Update: User Info -->
+      <tr>
+        <td>PUT</td>
+        <td>/users/:Username</td>
+        <td>{ username, password, email, birthday }</td>
+        <td>yes</td>
+        <td>Allows users to update their user info.</td>
+        <td>Users.findOneAndUpdate({ Username: req.params.Username })</td>
+        <td>
+          { success: true, message: "User updated successfully", updatedUser: {
+          updatedUserInfo } }
+        </td>
+      </tr>
+
+      <!-- PUT: Update a movie by title -->
+      <tr>
+        <td>PUT</td>
+        <td>/movies/:title</td>
+        <td>none</td>
+        <td>yes</td>
+        <td>update a movie by title</td>
+        <td>Movies.findOneAndUpdate({ Title: req.params.Title })</td>
+        <td>{ movieObject }</td>
+      </tr>
+
+      <!-- Delete: Remove Movie from Favorites -->
       <tr>
         <td>DELETE</td>
         <td>/users/:Username/movies/:MovieID</td>
-        <td>Username (string), MovieID (string)</td>
+        <td>none</td>
         <td>yes</td>
         <td>Allows users to remove a movie from their favorites.</td>
         <td>updatedUser = await Users.findOneAndUpdate</td>
@@ -176,7 +182,7 @@
       <tr>
         <td>DELETE</td>
         <td>/users/:Username</td>
-        <td>Username (string), MovieID (string)</td>
+        <td>none</td>
         <td>yes</td>
         <td>Allows users to delete user.</td>
         <td>updatedUser = await Users.findOneAndDelete</td>

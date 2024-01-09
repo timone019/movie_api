@@ -31,8 +31,8 @@ app.use(express.urlencoded({ extended: true }));
 // Enable CORS
 const cors = require("cors");
 
-CORS LimitedAccess
-let allowedOrigins = ["http://localhost:8080", "http://testsite.com", "http://localhost:1234"];
+// CORS LimitedAccess
+// let allowedOrigins = ["http://localhost:8080", "http://testsite.com", "http://localhost:1234"];
 
 app.use(
   cors({

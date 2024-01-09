@@ -11,11 +11,11 @@ const Models = require("./models.js");
 const Movies = Models.Movie;
 const Users = Models.User;
 
-// MongoDB Connection via Mongoose
-// mongoose.connect(process.env.CONNECTION_URI);
+MongoDB Connection via Mongoose
+mongoose.connect(process.env.CONNECTION_URI);
 
 // MongoDB Connection via Mongoose Local
-mongoose.connect('mongodb://127.0.0.1:27017/cfDB');
+// mongoose.connect('mongodb://127.0.0.1:27017/cfDB');
 
 // log requests to server
 app.use(morgan("common"));
@@ -24,15 +24,11 @@ app.use(morgan("common"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// old code
-// auto-sends all files requested from the public folder
-// app.use(express.static('public'));
-
-// Enable CORS
+Enable CORS
 const cors = require("cors");
 
-// CORS LimitedAccess
-// let allowedOrigins = ["http://localhost:8080", "http://testsite.com", "http://localhost:1234"];
+CORS LimitedAccess
+let allowedOrigins = ["http://localhost:8080", "http://testsite.com", "http://localhost:1234"];
 
 app.use(
   cors({

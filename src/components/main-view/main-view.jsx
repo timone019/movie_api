@@ -38,7 +38,7 @@ useEffect(() => {
         return;
     }
 
-    fetch("https://git.heroku.com/mymovies.git/movies", {
+    fetch("https://mymovies-8b73c95d0ae4.herokuapp.com/movies", {
         headers: { Authorization: `Bearer ${token}` },
     })
     .then((response) => response.json())

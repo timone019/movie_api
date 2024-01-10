@@ -14,6 +14,9 @@ const Users = Models.User;
 // MongoDB Connection via Mongoose
 mongoose.connect(process.env.CONNECTION_URI);
 
+// MongoDB Connection via Mongoose Local
+// mongoose.connect('mongodb://127.0.0.1:27017/cfDB');
+
 // log requests to server
 app.use(morgan("common"));
 
@@ -25,7 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 const cors = require("cors");
 
 // CORS LimitedAccess
-let allowedOrigins = ["http://localhost:8080", "http://testsite.com", "http://localhost:1234"];
+let allowedOrigins = ["http://localhost:8080", "http://testsite.com", "http://localhost:1234", "mongodb://127.0.0.1:27017/cfDB"];
 
 app.use(
   cors({

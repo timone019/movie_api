@@ -12,10 +12,10 @@ const Movies = Models.Movie;
 const Users = Models.User;
 
 // MongoDB Connection via Mongoose
-// mongoose.connect(process.env.CONNECTION_URI);
+mongoose.connect(process.env.CONNECTION_URI);
 
 // MongoDB Connection via Mongoose Local
-mongoose.connect('mongodb://127.0.0.1:27017/cfDB');
+// mongoose.connect('mongodb://127.0.0.1:27017/cfDB');
 
 // log requests to server
 app.use(morgan("common"));

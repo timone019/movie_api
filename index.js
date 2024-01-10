@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 const cors = require("cors");
 
 // CORS LimitedAccess
-let allowedOrigins = ["http://localhost:8080", "http://testsite.com", "http://localhost:1234"];
+let allowedOrigins = ["http://localhost:8080", "http://testsite.com", "http://localhost:1234", "mongodb://127.0.0.1:27017/cfDB"];
 
 app.use(
   cors({

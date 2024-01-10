@@ -13,8 +13,6 @@ export const LoginView = ({ onLoggedIn }) => {
       Password: password,
     };
 
-    // https://mymovies-8b73c95d0ae4.herokuapp.com/login"
-
     fetch("https://mymovies-8b73c95d0ae4.herokuapp.com/login", {
       method: "POST",
       headers: {

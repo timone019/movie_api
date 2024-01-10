@@ -36,11 +36,11 @@ export const SignupView = () => {
   return (
     <form onSubmit={handleSubmit}>
         <label>
-        FullName:
+        Full Name:
         <input
           type="text"
           value={FullName}
-          placeholder="First & last name"
+          placeholder="First & Last Name"
           onChange={(e) => setFullName(e.target.value)}
           required
 

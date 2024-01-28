@@ -89,6 +89,7 @@ app.post(
 /* We’ll expect JSON in this format
 {
   ID: Integer,
+  FullName: String,
   Username: String,
   Password: String,
   Email: String,
@@ -124,7 +125,7 @@ app.post(
           return res.status(400).send(req.body.Username + "already exists");
         } else {
           Users.create({
-            FirstName: req.body.FirstName,
+            FullName: req.body.FullName,
             Username: req.body.Username,
             Password: hashedPassword,
             Email: req.body.Email,
@@ -353,7 +354,7 @@ app.put(
       { Username: req.params.Username },
       {
         $set: {
-          FirstName: req.body.FirstName,
+          FullName: req.body.FullName,
           Username: req.body.Username,
           Password: hashedPassword,
           Email: req.body.Email,

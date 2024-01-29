@@ -17,6 +17,7 @@ let movieSchema = mongoose.Schema({
   Featured: Boolean,
   Year: String, 
   TrailerPath: String,
+  Rating: String,
 });
 
 let userSchema = mongoose.Schema({

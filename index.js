@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 const cors = require("cors");
 
 // CORS LimitedAccess
-let allowedOrigins = ["http://localhost:8080", "http://localhost:1234"];
+let allowedOrigins = ["http://localhost:8080", "http://localhost:1234", https://65b9e03f2c9f7d8bc33033ef--lively-semifreddo-1704fe.netlify.app/];
 
 app.use(
   cors({

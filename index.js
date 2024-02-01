@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 const cors = require("cors");
 
 // CORS LimitedAccess
-let allowedOrigins = ["http://localhost:8080", "http://localhost:1234", "https://groovymovieapp.netlify.app/", "https://65ba963648c2cd070741af4b--charming-crisp-c45fc4.netlify.app/"];
+let allowedOrigins = ["http://localhost:8080", "http://localhost:1234", "https://groovymovieapp.netlify.app", "https://65ba963648c2cd070741af4b--charming-crisp-c45fc4.netlify.app"];
 
 app.use(
   cors({
@@ -34,7 +34,7 @@ app.use(
       if (allowedOrigins.indexOf(origin) === -1) {
         // If a specific origin isn’t found on the list of allowed origins
         let message =
-          "The CORS policy for this application doesn’t allow access from origin " +
+          "The CORS policy for this application does not allow access from origin " +
           origin;
         return callback(new Error(message), false);
       }

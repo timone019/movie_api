@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 const cors = require("cors");
 
 // CORS LimitedAccess
-let allowedOrigins = ["https://loadedmovies.netlify.app", "http://localhost:1234", "https://groovymovieapp.netlify.app", "https://mustcmovies.netlify.app", "https://65ba963648c2cd070741af4b--charming-crisp-c45fc4.netlify.app"];
+let allowedOrigins = ["https://loadedmovies.netlify.app", "http://localhost:1234", "https://groovymovieapp.netlify.app", "https://mustcmovies.netlify.app", "https://65ba963648c2cd070741af4b-charming-crisp-c45fc4.netlify.app"];
 
 app.use(
   cors({

@@ -234,19 +234,19 @@ app.get("/directors/:directorName", (req, res) => {
     });
 });
 
-// Read: Return a list of ALL users
-app.get(
-  "/users", 
-  passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
-    try {
-      const users = await Users.find();
-      res.status(200).json(users);
-    } catch (err) {
-      res.status(500).send("Error: " + err);
-    }
-  }
-);
+// Read: Return a list of ALL users - disabled for security reasons
+// app.get(
+//   "/users", 
+//   passport.authenticate("jwt", { session: false }),
+//   async (req, res) => {
+//     try {
+//       const users = await Users.find();
+//       res.status(200).json(users);
+//     } catch (err) {
+//       res.status(500).send("Error: " + err);
+//     }
+//   }
+// );
 
 //co pilot suggestion for after =>
 // app.get(

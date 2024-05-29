@@ -25,7 +25,15 @@ app.use(express.urlencoded({ extended: true }));
 const cors = require("cors");
 
 // CORS LimitedAccess
-let allowedOrigins = ["https://loadedmovies.netlify.app", "http://localhost:1234", "https://groovymovieapp.netlify.app", "https://mustcmovies.netlify.app", "https://charming-crisp-c45fc4.netlify.app", "http://localhost:4200", "https://timone019.github.io/myFlix-Angular-client/welcome"];
+let allowedOrigins = [
+  "https://loadedmovies.netlify.app",
+  "http://localhost:1234",
+  "https://groovymovieapp.netlify.app",
+  "https://mustcmovies.netlify.app",
+  "https://charming-crisp-c45fc4.netlify.app",
+  "http://localhost:4200",
+  "https://timone019.github.io",
+];
 
 app.use(
   cors({
@@ -61,8 +69,9 @@ app.get("/", (req, res) => {
 
 // Create: Allow users to add a movie by movie ID to their list of favorites
 app.post(
-  "/users/:Username/movies/:MovieID", passport.authenticate("jwt", { session: false }),
-  async (req, res) => { 
+  "/users/:Username/movies/:MovieID",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
     // CONDITION TO CHECK PERMISSION
     if (req.user.Username !== req.params.Username) {
       return res.status(400).send("Permission denied");
@@ -129,7 +138,7 @@ app.post(
             Username: req.body.Username,
             Password: hashedPassword,
             Email: req.body.Email,
-            Birthday: req.body.Birthday
+            Birthday: req.body.Birthday,
           })
             .then((user) => {
               res.status(201).json(user);
@@ -148,17 +157,20 @@ app.post(
 );
 
 // Read: Return a list of ALL movies
-app.get("/movies", passport.authenticate("jwt", { session: false }),
-async (req, res) => {
-  await Movies.find()
-    .then((movies) => {
-      res.status(201).json(movies);
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).send("Error: " + error);
-    });
-});
+app.get(
+  "/movies",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    await Movies.find()
+      .then((movies) => {
+        res.status(201).json(movies);
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).send("Error: " + error);
+      });
+  }
+);
 
 // Read: Return data about a single movie by title
 app.get("/movies/:Title", (req, res) => {
@@ -236,7 +248,7 @@ app.get("/directors/:directorName", (req, res) => {
 
 // Read: Return a list of ALL users - disabled for security reasons
 // app.get(
-//   "/users", 
+//   "/users",
 //   passport.authenticate("jwt", { session: false }),
 //   async (req, res) => {
 //     try {
@@ -291,16 +303,15 @@ app.get("/directors/:directorName", (req, res) => {
 
 // Read: Return data about a single user by username
 
-
-
 app.get(
-  "/users/:Username", passport.authenticate("jwt", { session: false }),
+  "/users/:Username",
+  passport.authenticate("jwt", { session: false }),
   async (req, res) => {
-       // CONDITION TO CHECK PERMISSION
-       if (req.user.Username !== req.params.Username) {
-        return res.status(400).send("Permission denied");
-      }
-      // PERMISSION CHECK ENDS
+    // CONDITION TO CHECK PERMISSION
+    if (req.user.Username !== req.params.Username) {
+      return res.status(400).send("Permission denied");
+    }
+    // PERMISSION CHECK ENDS
     await Users.findOne({ Username: req.params.Username })
       .then((user) => {
         res.json(user);
@@ -340,9 +351,10 @@ app.get(
   Birthday: Date
 }*/
 
-// Update: Allow users to update only their user info via passport with token 
+// Update: Allow users to update only their user info via passport with token
 app.put(
-  "/users/:Username", passport.authenticate("jwt", { session: false }),
+  "/users/:Username",
+  passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     // CONDITION TO CHECK ADDED HERE
     if (req.user.Username !== req.params.Username) {
@@ -358,7 +370,7 @@ app.put(
           Username: req.body.Username,
           Password: hashedPassword,
           Email: req.body.Email,
-          Birthday: req.body.Birthday
+          Birthday: req.body.Birthday,
         },
       },
       { new: true }
@@ -375,8 +387,9 @@ app.put(
 
 // Delete: Allow users to remove a movie from their list of favorites
 app.delete(
-  "/users/:Username/movies/:MovieID", passport.authenticate("jwt", { session: false }),
-  (req, res) => { 
+  "/users/:Username/movies/:MovieID",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
     // CONDITION TO CHECK PERMISSION
     if (req.user.Username !== req.params.Username) {
       return res.status(400).send("Permission denied");
@@ -406,8 +419,9 @@ app.delete(
 
 // Delete: Allow existing users to deregister
 app.delete(
-  "/users/:Username", passport.authenticate("jwt", { session: false }),
-  async (req, res) => { 
+  "/users/:Username",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
     await Users.findOneAndDelete({ Username: req.params.Username })
       .then((user) => {
         if (!user) {

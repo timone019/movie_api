@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 const cors = require("cors");
 
 // CORS LimitedAccess
-let allowedOrigins = ["https://loadedmovies.netlify.app", "http://localhost:1234", "https://groovymovieapp.netlify.app", "https://mustcmovies.netlify.app", "https://charming-crisp-c45fc4.netlify.app", "http://localhost:4200"];
+let allowedOrigins = ["https://loadedmovies.netlify.app", "http://localhost:1234", "https://groovymovieapp.netlify.app", "https://mustcmovies.netlify.app", "https://charming-crisp-c45fc4.netlify.app", "http://localhost:4200", "https://timone019.github.io/myFlix-Angular-client"];
 
 app.use(
   cors({

@@ -98,6 +98,172 @@
 
         
             
+<h4 class="name" id="GET/movies"><span class="type-signature"></span>GET /movies<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Get all movies
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line207">line 207</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>Authentication: Bearer token (JWT)</code></pre>
+
+    <pre class="prettyprint"><code>Request data format
+none</code></pre>
+
+    <pre class="prettyprint"><code>Response data format
+[
+  {
+    _id: ObjectID
+    "Title": "",
+    "Description": "",
+    "Genre": ObjectID,
+    "Director": [ObjectID],
+    "Actors": [ObjectID],
+    "ImagePath": "",
+    "Featured": Boolean,
+  }
+]</code></pre>
+
+
+
+        
+            
+<h4 class="name" id="GET/movies/:Title"><span class="type-signature"></span>GET /movies/:Title<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Get a movie by title
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line246">line 246</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>Authentication: Bearer token (JWT)</code></pre>
+
+    <pre class="prettyprint"><code>Request data format
+none</code></pre>
+
+    <pre class="prettyprint"><code>Response data format
+{
+  _id: ObjectID
+  "Title": "",
+  "Description": "",
+  "Genre": ObjectID,
+  "Director": [ObjectID],
+  "Actors": [ObjectID],
+  "ImagePath": "",
+  "Featured": Boolean,
+}</code></pre>
+
+
+
+        
+            
 <h4 class="name" id="Models"><span class="type-signature">(constant) </span>Models<span class="type-signature"> :Object</span></h4>
 
 
@@ -237,6 +403,180 @@
 
 
 
+
+
+
+        
+            
+<h4 class="name" id="POST/login"><span class="type-signature"></span>POST /login<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Login user
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="auth.js.html">auth.js</a>, <a href="auth.js.html#line18">line 18</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>Authentication: None</code></pre>
+
+    <pre class="prettyprint"><code>Request data format
+{
+ "Username": "",
+ "Password": ""
+}</code></pre>
+
+    <pre class="prettyprint"><code>Response data format
+{
+  user: {
+    "_id": ObjectID,
+    "FirstName": ""
+    "LastName": ""
+    "Username": "",
+    "Password": "",
+    "Email": "",
+    "DOB": "",
+    "FavoriteMovies": [ObjectID]
+  },
+  token: ""
+}</code></pre>
+
+
+
+        
+            
+<h4 class="name" id="PUT/users/:UserName"><span class="type-signature"></span>PUT /users/:UserName<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Update a user
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line363">line 363</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>Authentication: Bearer token (JWT)
+Request data format
+{
+ "Username": "",
+ "Password": "",
+ "Email": "",
+ "Birthday:" ""
+}</code></pre>
+
+    <pre class="prettyprint"><code>Response data format
+{
+  "_id": ObjectID,
+  "FirstName": ""
+  "LastName": ""
+  "Username": "",
+  "Password": "",
+  "Email": "",
+  "DOB": "",
+  "FavoriteMovies": [ObjectID]
+}</code></pre>
 
 
 
@@ -731,7 +1071,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line109">line 109</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line502">line 502</a>
     </li></ul></dd>
     
 
@@ -765,13 +1105,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Models">Models</a></li><li><a href="global.html#Movies">Movies</a></li><li><a href="global.html#Users">Users</a></li><li><a href="global.html#allowedOrigins">allowedOrigins</a></li><li><a href="global.html#app">app</a></li><li><a href="global.html#cors">cors</a></li><li><a href="global.html#mongoose">mongoose</a></li><li><a href="global.html#morgan">morgan</a></li><li><a href="global.html#port">port</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#GET/movies">GET /movies</a></li><li><a href="global.html#GET/movies/:Title">GET /movies/:Title</a></li><li><a href="global.html#Models">Models</a></li><li><a href="global.html#Movies">Movies</a></li><li><a href="global.html#POST/login">POST /login</a></li><li><a href="global.html#PUT/users/:UserName">PUT /users/:UserName</a></li><li><a href="global.html#Users">Users</a></li><li><a href="global.html#allowedOrigins">allowedOrigins</a></li><li><a href="global.html#app">app</a></li><li><a href="global.html#cors">cors</a></li><li><a href="global.html#mongoose">mongoose</a></li><li><a href="global.html#morgan">morgan</a></li><li><a href="global.html#port">port</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Wed Jun 19 2024 13:40:16 GMT-0700 (Pacific Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Mon Jun 24 2024 12:48:51 GMT-0700 (Pacific Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

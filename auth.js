@@ -15,6 +15,33 @@ let generateJWTToken = (user) => {
   });
 }
 
+/**
+ * @description Login user
+ * @example
+ * Authentication: None
+ * @name POST /login
+ * @example
+ * Request data format
+ * {
+ *  "Username": "",
+ *  "Password": ""
+ * }
+ * @example
+ * Response data format
+ * {
+ *   user: {
+ *     "_id": ObjectID,
+ *     "FirstName": ""
+ *     "LastName": ""
+ *     "Username": "",
+ *     "Password": "",
+ *     "Email": "",
+ *     "DOB": "",
+ *     "FavoriteMovies": [ObjectID]
+ *   },
+ *   token: ""
+ * }
+ */
 /* POST login. */
 module.exports = (router) => {
     router.post('/login', (req, res) => {

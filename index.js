@@ -81,6 +81,7 @@ let allowedOrigins = [
   "https://charming-crisp-c45fc4.netlify.app",
   "http://localhost:4200",
   "https://timone019.github.io",
+  "https://io.andynguyen.net",
 ];
 
 app.use(

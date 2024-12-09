@@ -82,6 +82,7 @@ let allowedOrigins = [
   "http://localhost:4200",
   "https://timone019.github.io",
   "https://io.andynguyen.net",
+  "https://test.invyteout.com",
 ];
 
 app.use(

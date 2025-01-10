@@ -84,6 +84,7 @@ let allowedOrigins = [
   "https://io.andynguyen.net",
   "https://test.invyteout.com",
   "https://vynterface.com",
+  "https://main.vynterface.com",
 ];
 
 app.use(

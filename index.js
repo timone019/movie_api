@@ -83,6 +83,7 @@ let allowedOrigins = [
   "https://timone019.github.io",
   "https://io.andynguyen.net",
   "https://test.invyteout.com",
+  "https://vynterface.com",
 ];
 
 app.use(

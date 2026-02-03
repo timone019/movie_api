@@ -76,15 +76,9 @@ const cors = require("cors");
 let allowedOrigins = [
   "https://loadedmovies.netlify.app",
   "http://localhost:1234",
-  "https://groovymovieapp.netlify.app",
   "https://mustcmovies.netlify.app",
-  "https://charming-crisp-c45fc4.netlify.app",
   "http://localhost:4200",
   "https://timone019.github.io",
-  "https://io.andynguyen.net",
-  "https://test.invyteout.com",
-  "https://dev.vynterface.com",
-  "https://main.vynterface.com",
 ];
 
 app.use(
